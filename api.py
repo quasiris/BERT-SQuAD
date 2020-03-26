@@ -14,10 +14,11 @@ def predict():
     q = request.json["question"]
     try:
         out = model.predict(doc,q)
-        return jsonify({"result":out})
+        out["status"] = "OK"
+        return jsonify(out)
     except Exception as e:
         print(e)
-        return jsonify({"result":"Model Failed"})
+        return jsonify({"status":"Model Failed"})
 
 if __name__ == "__main__":
     app.run('0.0.0.0',port=8000)
