@@ -401,7 +401,7 @@ def _compute_softmax(scores):
         probs.append(score / total_sum)
     return probs
 
-def get_answer(example, features, all_results, n_best_size,
+def get_answers(example, features, all_results, n_best_size,
                 max_answer_length, do_lower_case):
     example_index_to_features = collections.defaultdict(list)
     for feature in features:
@@ -504,11 +504,19 @@ def get_answer(example, features, all_results, n_best_size,
         total_scores.append(entry.start_logit + entry.end_logit)
 
     probs = _compute_softmax(total_scores)
-    
-    answer = {"answer" : nbest[0].text,
-               "start" : nbest[0].start_index,
-               "end" : nbest[0].end_index,
-               "confidence" : probs[0],
-               "document" : example.doc_tokens
-             }
-    return answer
+
+    answers = {
+        "answers": [],
+        "document": example.doc_tokens
+    }
+
+    for i in range(0, len(nbest)):
+        entry = nbest[i]
+        answer = {
+            "answer" : entry.text,
+            "start" : entry.start_index,
+            "end" : entry.end_index,
+            "confidence" : probs[i]
+        }
+        answers["answers"].append(answer)
+    return answers
