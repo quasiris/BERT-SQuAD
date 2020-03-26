@@ -4,7 +4,7 @@ import collections
 import logging
 
 import torch
-from pytorch_transformers import (WEIGHTS_NAME, BertConfig,
+from transformers import (WEIGHTS_NAME, BertConfig,
                                   BertForQuestionAnswering, BertTokenizer)
 from torch.utils.data import DataLoader, SequentialSampler, TensorDataset
 
