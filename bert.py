@@ -2,9 +2,7 @@ from __future__ import absolute_import, division, print_function
 
 import collections
 import logging
-import math
 
-import numpy as np
 import torch
 from pytorch_transformers import (WEIGHTS_NAME, BertConfig,
                                   BertForQuestionAnswering, BertTokenizer)
@@ -15,8 +13,9 @@ from utils import (get_answer, input_to_squad_example,
 
 RawResult = collections.namedtuple("RawResult",
                                    ["unique_id", "start_logits", "end_logits"])
-
-
+logging.basicConfig()
+logger = logging.getLogger("bert")
+logger.setLevel(logging.INFO)
 
 class QA:
 
@@ -32,6 +31,7 @@ class QA:
             self.device = 'cuda'
         else:
             self.device = 'cpu'
+        logger.info('Use device: %s', self.device)
         self.model.to(self.device)
         self.model.eval()
 
