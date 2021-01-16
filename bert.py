@@ -26,7 +26,7 @@ class QA:
         self.max_query_length = 64
         self.n_best_size = 20
         self.max_answer_length = 30
-        self.model, self.tokenizer = self.load_model(model_path)
+        self.model, self.tokenizer = self.load_model(model_path, self.do_lower_case)
         if torch.cuda.is_available():
             self.device = 'cuda'
         else:
